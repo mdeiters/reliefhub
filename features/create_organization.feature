@@ -4,8 +4,17 @@ I want to be able to Add/Edit an organization
 
 
 	Scenario: View organizations
+	  Given the following organizations exist:
+		  | name               | street1          | contact person |
+		  | oliver's orphanage | 123 main st      | alex           |
+		  | oscar's orphanage  | 455 fifth avenue | alex           |
+		  | olivia's orphanage | 131 first st     | yan            |
 	  Given I go to the organizations page
 	   Then I should see "Organization"
+		  And I should see "oliver's orphanage"
+		  And I should see "oscar's orphanage"
+		  And I should see "olivia's orphanage"
+
 
 	Scenario: Create a new organization
 	  Given I go to the organizations page

@@ -1,6 +1,15 @@
-require 'spec_helper'
+require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe Admin::OrganizationsController do
+  describe 'index' do
+    it 'should load all organizations' do
+      Organization.stubs(:all).returns(organizations=stub)
+      get :index
+      Organization.should have_received(:all)
+      assigns[:organizations].should == organizations
+    end
+  end
+  
   describe 'new' do
     it 'should get a new organizations' do
       Organization.stubs(:new).returns(organization=stub)
