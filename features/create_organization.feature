@@ -23,10 +23,13 @@ I want to be able to Add/Edit an organization
 	    And I fill in "Street1" with "123 main st"
 	    And I fill in "City" with "boston"
 	    And I fill in "State" with "Mass"
+	    And I fill in "Country" with "USA"
 	    And I fill in "Contact person" with "alex"
 	    And I fill in "Phone number" with "123-456-7890"
 	    And I press "Create Organization"
 	   Then I should see "Successfully created a new organizations called my orphanage"
-
+      And I should see "my orphanage"
+      And I should see "123 main st, boston, Mass, USA"
+      And I should see "alex"
 
 

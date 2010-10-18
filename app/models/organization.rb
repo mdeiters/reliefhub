@@ -1,9 +1,9 @@
 class Organization < ActiveRecord::Base
   def address
-    [:street1, :street2, :city, :state, :zip].map {|field| self.send(field) }.compact.join(', ')
+    [:street1, :street2, :city, :state, :zip, :country].map {|field| self.send(field) }.reject(&:blank?).join(', ')
   end
   
-  def number_of_projects
+  def projects_count 
     0
   end
 end

@@ -1,51 +1,56 @@
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
+require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper') 
+describe Admin::OrganizationsController do 
 
-describe Admin::OrganizationsController do
   describe 'index' do
-    it 'should load all organizations' do
-      Organization.stubs(:all).returns(organizations=stub)
-      get :index
+
+    let(:organizations) { [stub] }
+    before do
+      Organization.stubs(:all).returns(organizations)
+      get :index 
+    end 
+    it "should have called organization.all" do
+
       Organization.should have_received(:all)
-      assigns[:organizations].should == organizations
     end
+    it { should assign_to(:organizations).with(organizations)} 
+    it { should respond_with(:success) }
   end
   
   describe 'new' do
-    it 'should get a new organizations' do
-      Organization.stubs(:new).returns(organization=stub)
-    
+    let(:organization) { Factory.build(:organization) }
+
+    before do
+      Organization.stubs(:new=>organization)
       get :new
-    
-      assigns[:organization].should == organization
     end
+    it { should assign_to(:organization).with(organization)}
+
   end
   
   describe 'create' do
-    before :each do
+    let(:organization) { Factory.build(:organization) }
+    before do
       @data = stub
-      Organization.stubs(:new).returns(@organization=stub)
-      @organization.stubs(:name).returns('my orphanage')
-    end
-    it 'should successfully create and redirect to index' do
-      @organization.stubs(:save).returns(true)
-
-      post :create, :organization=>@data
-      
-      response.should redirect_to(admin_organizations_path)
-      flash[:notice].should == "Successfully created a new organizations called my orphanage"
-      
-      Organization.should have_received(:new).with(@data)
+      Organization.stubs(:new=>organization)
+      organization.stubs(:name=>'my orphanage')
     end
 
-    it 'should stay on the edit page when saving fails' do
-      @organization.stubs(:save).returns(false)
-      
-      post :create, :organization=>@data
-      
-      response.should render_template(:new)
-      
-      Organization.should have_received(:new).with(@data)
+    describe 'succeeds' do
+      before do
+        organization.stubs(:save=>true)
+        post :create, :organization=>@data
+      end
+      it { should redirect_to(admin_organizations_path) }
+      it { should set_the_flash.to("Successfully created a new organizations called my orphanage") }
     end
+
+    describe 'failing' do
+      before do
+        organization.stubs(:save=>false)
+        post :create, :organization=>@data
+      end
+      it { should render_template(:new) }
+    end  
   end
   
 end

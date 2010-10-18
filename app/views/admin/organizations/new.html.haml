@@ -1,4 +1,4 @@
-- semantic_form_for @organization, :url=>admin_organizations_path do |f|
+- semantic_form_for [:admin, @organization] do |f|
   - f.inputs do
     = f.input :name
     = f.input :street1
@@ -6,6 +6,7 @@
     = f.input :city
     = f.input :state
     = f.input :zip
+    = f.input :country, :as=>:string
     = f.input :contact_person
     = f.input :phone_number
     = f.input :overview
