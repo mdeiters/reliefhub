@@ -16,8 +16,10 @@ module NavigationHelpers
       sign_up_path
     when /the sign in page/i
       sign_in_path
+    when /the sign out page/i
+      sign_out_path
     when /the password reset request page/i
-      new_password_path
+      new_user_password_path
     when /the organizations page/i
       admin_organizations_path
 

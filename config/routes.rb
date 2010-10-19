@@ -1,12 +1,13 @@
 Reliefhub::Application.routes.draw do
-  root :to => "homes#show"
+  root :to => "homes#show", :via => :get
+
   resource :home, :only => [:show]
 
   devise_for :users
 
-  match 'sign_up'  => 'devise/sessions#new',     :as => 'sign_up'
-  match 'sign_in'  => 'devise/sessions#create',  :as => 'sign_in'
-  match 'sign_out' => 'devise/sessions#destroy', :as => 'sign_out', :via => :delete
+  match 'sign_up'  => 'devise/registrations#new', :via => :get, :as => 'sign_up'
+  match 'sign_in'  => 'devise/sessions#new',      :via => :get, :as => 'sign_in'
+  match 'sign_out' => 'devise/sessions#destroy',  :via => :get, :as => 'sign_out'
 
   namespace :admin do
     resources :organizations, :only => [:index, :new, :create]
